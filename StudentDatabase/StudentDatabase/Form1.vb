@@ -142,6 +142,20 @@ Public Class FrmStudentDB
         End If
     End Sub
 
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        Try
+            With DataGridView1
+                If DataGridView1.CurrentRow IsNot Nothing Then
+                    selectDatagridRow(.CurrentRow.Index)
+                    enableButton(True, True, False, True)
+                End If
+            End With
+        Catch ex As Exception
+            MessageBox.Show(ex.Message.ToString, "Student Database", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
     Private Sub FrmStudentDB_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         addCombo()
 
