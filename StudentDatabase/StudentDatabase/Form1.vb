@@ -12,10 +12,16 @@ Public Class FrmStudentDB
 
     Private Function CreateConnection() As Boolean
         Dim rslRtn As Boolean = True
-        con = New OdbcConnection()
+        Try
+            con = New OdbcConnection()
             Dim conStr As String = "Driver={Microsoft Access Driver (*.mdb)}; DBQ=TestDB.mdb;UID=;PWD=;"
             con.ConnectionString = conStr
-        con.Open()
+            con.Open()
+        Catch ex As Exception
+            rslRtn = False
+            MessageBox.Show("ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้ เนื่องจาก : " & ex.Message.ToString &
+                            vbCrLf & "โปรแกรมจะปิดตัวเองอัตโนมัติ")
+        End Try
         Return rslRtn
     End Function
 
