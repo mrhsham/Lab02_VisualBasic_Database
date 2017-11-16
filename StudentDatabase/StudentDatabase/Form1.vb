@@ -101,6 +101,20 @@ Public Class FrmStudentDB
         End With
     End Sub
 
+    Private Function isIDinDatabase(myID As String) As Boolean
+        Dim _tmpTbl As DataTable
+        Dim myQuery As String = "SELECT * FROM StudentDetail WHERE SID = '" & tbxID.Text & "'"
+
+        _tmpTbl = Nothing
+        _tmpTbl = GetDataTable(myQuery)
+
+        If _tmpTbl.Rows.Count = 0 Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+
     Private Function LoadDBData() As Integer
         Dim _tmpTbl As DataTable
         Dim myQuery As String = "SELECT * FROM StudentDetail ORDER BY SID"
@@ -142,6 +156,53 @@ Public Class FrmStudentDB
         End If
     End Sub
 
+    Private Sub ExecuteQuery(ByVal SQL As String)
+        CheckConnection()
+        Dim cmd As New OdbcCommand(SQL, con)
+        cmd.ExecuteNonQuery()
+    End Sub
+
+    Private Sub Delete()
+        With DataGridView1
+            If .SelectedRows.Count = 0 Then
+                MessageBox.Show("กรุณาเลือกเรคอร์ดที่ต้องการลบ!", "Student Database",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return
+            End If
+
+            If MessageBox.Show("ต้องการลบหรือไม่?", "ลบเรคอร์ด", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                Dim query = "DELETE FROM StudentDetail WHERE SID = '" & .Rows(.CurrentRow.Index).Cells("DGVID").Value & "'"
+                ExecuteQuery(query)
+                MessageBox.Show("ลบชื่อข้อมูลเรียบร้อยแล้ว!", "Student Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                reloadDatabase()
+            End If
+        End With
+    End Sub
+
+    Private Sub Save()
+        With DataGridView1
+            Dim myQuery As String = String.Empty
+            If myCommand = commandStatusEnum.Create Then
+                myQuery = "INSERT INTO StudentDetail(SID, STitle, SName, SSirname, STelephone, SLineID, SMemo)"
+                myQuery &= " VALUES ('" & tbxID.Text & "','" & cbxTitle.Text & "','" & tbxName.Text & "','"
+                myQuery &= tbxSirname.Text & "','" & tbxTelephone.Text & "','" & tbxLineID.Text & "','" & tbxMemo.Text & "')"
+                ExecuteQuery(myQuery)
+                MessageBox.Show("บันทึกข้อมูลเรียบร้อยแล้ว!", "Student Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ElseIf myCommand = commandStatusEnum.Edit Then
+                myQuery = "UPDATE StudentDetail SET STitle = '" & cbxTitle.Text & "',SName = '"
+                myQuery &= tbxName.Text & "', SSirname = '" & tbxSirname.Text & "', STelephone = '"
+                myQuery &= tbxTelephone.Text & "', SLineID = '" & tbxLineID.Text & "', SMemo = '" & tbxMemo.Text & "'"
+                myQuery &= " WHERE SID = '" & tbxID.Text & "'"
+
+                ExecuteQuery(myQuery)
+                MessageBox.Show("ปรับปรุงข้อมูลเรียบร้อยแล้ว!", "Student Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                .Enabled = True
+            End If
+        End With
+        myCommand = commandStatusEnum.None
+        reloadDatabase()
+    End Sub
+
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         Try
             With DataGridView1
@@ -155,6 +216,56 @@ Public Class FrmStudentDB
         End Try
     End Sub
 
+    Private Sub btnCreate_Click(sender As Object, e As EventArgs) Handles btnCreate.Click
+        clearDataInControl()
+        enableAllControl(True)
+        enableButton(False, False, True, False)
+        DataGridView1.Enabled = False
+        myCommand = commandStatusEnum.Create
+    End Sub
+
+    Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        enableAllControl(True)
+        DataGridView1.Enabled = False
+        enableButton(False, False, True, False)
+        tbxID.Enabled = False
+        myCommand = commandStatusEnum.Edit
+    End Sub
+
+    Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
+        If myCommand = commandStatusEnum.Create Then
+            If tbxID.Text <> "" Then
+                If isIDinDatabase(tbxID.Text) = True Then
+                    MessageBox.Show("รหัสนักศึกษา " & tbxID.Text & "นี้ มีในฐานข้อมูลแล้ว กรุณาระบุใหม่", "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Hand)
+                    tbxID.Focus()
+                    tbxID.SelectionStart = 0
+                    tbxID.SelectionLength = tbxID.Text.Length
+                Else
+                    Save()
+                End If
+            Else
+                Dim dlg As DialogResult
+                dlg = MessageBox.Show("คลิกปุ่ม Yes เพื่อยกเลิก" & vbCrLf & "คลิกปุ่ม No เพื่อแก้ไขรหัสนักศึกษาใหม่",
+                                  "ยกเลิก", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If dlg = DialogResult.Yes Then
+                    reloadDatabase()
+                Else
+                    tbxID.Focus()
+                End If
+            End If
+        ElseIf myCommand = commandStatusEnum.Edit Then
+            Save()
+        End If
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        Delete()
+    End Sub
+
+    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+        End
+    End Sub
 
     Private Sub FrmStudentDB_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         addCombo()
