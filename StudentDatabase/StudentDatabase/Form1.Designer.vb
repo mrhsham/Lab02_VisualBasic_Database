@@ -51,6 +51,7 @@ Partial Class FrmStudentDB
         Me.BtnSave = New System.Windows.Forms.Button()
         Me.btnEdit = New System.Windows.Forms.Button()
         Me.btnCreate = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbxImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -312,11 +313,21 @@ Partial Class FrmStudentDB
         Me.btnCreate.Text = "สร้าง"
         Me.btnCreate.UseVisualStyleBackColor = True
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(497, 202)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 33)
+        Me.Button1.TabIndex = 64
+        Me.Button1.Text = "Print"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'FrmStudentDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(784, 641)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.pbxImage)
         Me.Controls.Add(Me.cbxTitle)
@@ -380,4 +391,5 @@ Partial Class FrmStudentDB
     Friend WithEvents BtnSave As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnCreate As Button
+    Friend WithEvents Button1 As Button
 End Class
