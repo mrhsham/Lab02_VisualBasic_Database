@@ -277,5 +277,11 @@ Public Class FrmStudentDB
         reloadDatabase()
     End Sub
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Report.Show()
+    End Sub
 
+    Private Sub pbxImage_Click(sender As Object, e As EventArgs) Handles pbxImage.Click
+
+    End Sub
 End Class

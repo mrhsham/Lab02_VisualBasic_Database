@@ -51,6 +51,7 @@ Partial Class FrmStudentDB
         Me.BtnSave = New System.Windows.Forms.Button()
         Me.btnEdit = New System.Windows.Forms.Button()
         Me.btnCreate = New System.Windows.Forms.Button()
+        Me.btnPrint = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbxImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -65,6 +66,7 @@ Partial Class FrmStudentDB
         Me.DataGridView1.Location = New System.Drawing.Point(13, 349)
         Me.DataGridView1.MultiSelect = False
         Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersVisible = False
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(758, 211)
@@ -74,46 +76,54 @@ Partial Class FrmStudentDB
         '
         Me.DGVIndex.HeaderText = "ลำดับที่"
         Me.DGVIndex.Name = "DGVIndex"
+        Me.DGVIndex.ReadOnly = True
         Me.DGVIndex.Width = 80
         '
         'DGVID
         '
         Me.DGVID.HeaderText = "รหัสนักศึกษา"
         Me.DGVID.Name = "DGVID"
+        Me.DGVID.ReadOnly = True
         Me.DGVID.Width = 110
         '
         'DGVTitle
         '
         Me.DGVTitle.HeaderText = "คำนำหน้า"
         Me.DGVTitle.Name = "DGVTitle"
+        Me.DGVTitle.ReadOnly = True
         '
         'DGVName
         '
         Me.DGVName.HeaderText = "ชื่อ"
         Me.DGVName.Name = "DGVName"
+        Me.DGVName.ReadOnly = True
         Me.DGVName.Width = 180
         '
         'DGVSirname
         '
         Me.DGVSirname.HeaderText = "สกุล"
         Me.DGVSirname.Name = "DGVSirname"
+        Me.DGVSirname.ReadOnly = True
         '
         'DGVTelephone
         '
         Me.DGVTelephone.HeaderText = "หมายเลขโทรศัพท์"
         Me.DGVTelephone.Name = "DGVTelephone"
+        Me.DGVTelephone.ReadOnly = True
         Me.DGVTelephone.Width = 230
         '
         'DGVLineID
         '
         Me.DGVLineID.HeaderText = "หมายเลข Line"
         Me.DGVLineID.Name = "DGVLineID"
+        Me.DGVLineID.ReadOnly = True
         Me.DGVLineID.Width = 150
         '
         'DGVMemo
         '
         Me.DGVMemo.HeaderText = "Memo"
         Me.DGVMemo.Name = "DGVMemo"
+        Me.DGVMemo.ReadOnly = True
         Me.DGVMemo.Width = 140
         '
         'pbxImage
@@ -312,11 +322,22 @@ Partial Class FrmStudentDB
         Me.btnCreate.Text = "สร้าง"
         Me.btnCreate.UseVisualStyleBackColor = True
         '
+        'btnPrint
+        '
+        Me.btnPrint.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
+        Me.btnPrint.Location = New System.Drawing.Point(472, 195)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(100, 40)
+        Me.btnPrint.TabIndex = 64
+        Me.btnPrint.Text = "พิมพ์"
+        Me.btnPrint.UseVisualStyleBackColor = True
+        '
         'FrmStudentDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(784, 641)
+        Me.Controls.Add(Me.btnPrint)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.pbxImage)
         Me.Controls.Add(Me.cbxTitle)
@@ -380,4 +401,5 @@ Partial Class FrmStudentDB
     Friend WithEvents BtnSave As Button
     Friend WithEvents btnEdit As Button
     Friend WithEvents btnCreate As Button
+    Friend WithEvents btnPrint As Button
 End Class
